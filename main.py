@@ -17,6 +17,7 @@ propose_records = telepot.helper.SafeDict()
 
 # Comandos do BOT
 PATTERN_BOT_LOC = re.compile('locais|/locais')
+PATTERN_BOT_MED = re.compile('medidores|/medidores')
 
 
 '''
@@ -24,7 +25,8 @@ VARIABLES HELPER:
 -----------------
     + _chat_state:
         00 -> Nada
-        01 -> Esperando o nome da localidade
+        01 -> Esperando o nome da localidade (p/ pegar código do TorezaniBot)
+        01 -> Esperando o nome da localidade (p/ pegar o nº de trafo/instalação)
 '''
 
 
@@ -45,14 +47,6 @@ class EDPBR_HelperBot(telepot.helper.ChatHandler):
             self._edit_msg_ident = None
             self._editor = None
             self._chat_state = 0        # Tipo de reply esperada
-            self._id = None             # Equipamento ID
-            self._categoria = None      # Categoria do equipamento
-            self._radio_num = None      # Nº do rádio
-            self._radio_ip = None       # IP do rádio
-            self._eqp_coord = None      # Coordenada do equipamento
-            self._eqp_coord_name = None # Nome do equipamento
-            self._rep_coord = None      # Coordenada do repetidora
-            self._rep_coord_name = None # Nome da repetidora
 
 
     def _handle_message(self, msg):
@@ -66,9 +60,17 @@ class EDPBR_HelperBot(telepot.helper.ChatHandler):
             sent = self.sender.sendMessage(utils.torezaniBot_locations(msg_text))
             self.close()
 
+        elif self._chat_state == 2:
+            sent = self.sender.sendMessage(utils.medidores(msg_text))
+            self.close()
+
         elif bool(PATTERN_BOT_LOC.match(msg_text.lower())):
             sent = self.sender.sendMessage('Digite o nome da localidade.')
             self._chat_state = 1
+
+        elif bool(PATTERN_BOT_MED.match(msg_text.lower())):
+            sent = self.sender.sendMessage('Digite o nome da localidade.')
+            self._chat_state = 2
             
         # Comando não reconhecido
         else:

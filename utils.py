@@ -16,3 +16,17 @@ def torezaniBot_locations(name, loc=None, filename='torezaniBot_locations.csv'):
         msg_list.append(msg.format(cod, desc))
 
     return '\n'.join(msg_list) 
+
+def medidores(name, loc=None, filename='medidores.csv'):
+    df = pd.read_csv(filename, sep=';')
+
+    df = df[df.desc.str.contains(name.upper())]
+
+    msg_list = []
+    msg = 'Local.: {}\nTrafo.: {}\nInstalação: {}\n'
+
+    for i in df.index:
+        desc0, trafo, inst = df.loc[i]
+        msg_list.append(msg.format(desc0, trafo, inst))
+
+    return '\n'.join(msg_list) 
