@@ -15,6 +15,9 @@ def torezaniBot_locations(name, loc=None, filename='torezaniBot_locations.csv'):
         cod, desc, _ = df.loc[i]
         msg_list.append(msg.format(cod, desc))
 
+    if len(msg_list) == 0:
+        return 'Local não encontrado.'
+
     return '\n'.join(msg_list) 
 
 def medidores(name, loc=None, filename='medidores.csv'):
@@ -28,5 +31,8 @@ def medidores(name, loc=None, filename='medidores.csv'):
     for i in df.index:
         desc0, trafo, inst = df.loc[i]
         msg_list.append(msg.format(desc0, trafo, inst))
+
+    if len(msg_list) == 0:
+        return 'Local não encontrado.'
 
     return '\n'.join(msg_list) 

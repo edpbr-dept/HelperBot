@@ -4,13 +4,14 @@ import utils
 import telepot
 from telepot.loop import MessageLoop
 from telepot.delegate import pave_event_space, per_chat_id, create_open, include_callback_query_chat_id
+import keys
 
 
 ## MACROS
 # Token API
-TOKEN = 
+TOKEN = keys.token
 # # Set API proxy
-# telepot.api.set_proxy(proxy)
+telepot.api.set_proxy(keys.proxy)
 # thread-safe dict
 propose_records = telepot.helper.SafeDict()  
 
